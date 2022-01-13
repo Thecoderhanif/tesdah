@@ -1,0 +1,101 @@
+---
+title: 'Netlify sebagai Pemendek Tautan'
+publishedAt: '2021-08-10'
+summary: 'Menjadikan Netlify Redirects sebagai layanan URL Shortener pribadi'
+image: '/static/images/shortener/banner.jpg'
+tags: ['techie']
+---
+
+<Wrapper>
+  <Image
+    alt={`Cover Image - "Netlify sebagai Pemendek Tautan"`}
+    src={`/static/images/shortener/banner.jpg`}
+    width={3284 / 3}
+    height={2492 / 3}
+    priority
+  />
+  <Caption>
+    Photo by&nbsp;
+    <Link href="https://unsplash.com/@overlyawesome">Daniel Gonzalez</Link> on&nbsp;
+    <Link href="https://unsplash.com/photos/KeiUIl9Lzo4">Unsplash</Link>
+  </Caption>
+</Wrapper>
+
+Saya memang jarang sekali membagikan tautan ke orang lain, tapi setidaknya pernah dong ya. Dan apabila tautan yang ingin dibagikan cukup panjang, thanks to bit.ly dengan cara kerjanya yang memperpendek tautan menjadi sangat mudah dan _gampang diingat_(?), karena dalam "free tier" sekalipun, bit.ly tetap memberikan fitur custom link (Custom Back-half) dengan limit 50 kali per bulan—yang awalnya https://bit.ly/GhjKL menjadi https://bit.ly/gu3GanteNg misalnya. Dengan begitu lidahmu tidak akan kesulitan untuk mengucapkan tautan yang baru saja saya buat. Dan lagi, ini _gampang diingat_, benar?
+
+Lalu bagaimana jika ingin menggunakan domain sendiri (misalnnya menjadi https://iya.in/gu3GanteNg), tentu saja bit.ly menyediakan fitur tersebut. Tapi melihat harga yang ditawarkan dengan $35 per bulan atau $348 untuk sekali bayar dalam 1 tahun, dipikirkan beberapa kali pun saya tetap tidak habis pikir. Bayangkan saja untuk biaya 1 bulan—502,894 IDR—saya ganti untuk membeli persedian stok Indomie, dengan membelinya [di sini](https://www.tokopedia.com/Indomieofficial/1-dus-isi-40-pcs-Indomie-kuah-kaldu-ayam?whid=0) saya bisa dapat 5 dus yang masing-masing terdapat 40 bungkus. Walaupun saya paksakan memakannya 3 kali sehari, Indomie tersebut masih utuh dengan 2 dus yang belum terbuka, bahkan menjadi ladang amal dengan mensedakahkan ke tetangga kosan sebelah. hahaha.
+
+perumpamaan cukup ekstrem? tentu tidak, karena tulisan ini diambil dari sudut pandang mahasiswa yang tingkal ngekos.
+
+## Netlify Redirects
+
+Ketika bosan dan ingin mengistirahatkan otak apa yang biasa kamu ~~kerjakan~~ lakukan? Baru-baru ini saya menemukan fitur mantap dari Netlify yang didapatkan karena rasa bosan saya, fitur tersebut bernama **Redirects**. Netlify redirects ini bisa kita manfaatkan sebagai pemendek tautan untuk menggantikan ehm bit.ly. Kamu sudah dapat menggunakan custom domain dan tetap bisa menikmati 3 dus Indomie tiap bulannya.
+
+### Tapi...
+
+Mari kita ke tahap krusialnya!
+
+Hal yang perlu persiapkan hanya akun Github, Netlify dan 50 ribu untuk menyewa domain jika memang belum punya.
+
+Tidak tahu cara membuat akun Github? **Google it!**
+
+Tidak tahu cara membuat akun Netlify? **Google it!**
+
+Jangan cari ke google jika ingin mendapatkan uang 50 ribu. Karena kamu tidak akan menemukannya di sana.
+
+Selanjutnya kamu perlu membuat repositori baru, public maupun private tidak masalah. Karena hanya butuh 1 file yang bernama \_redirects tanpa ekstensi dibelakangnya, jadi kamu bisa membuatnya langsung di Github atau meng-clone ke Local Machine kamu.
+
+```bash:_redirects
+# Salin tautan terpanjang mu yang ingin diperpendek
+/github    https://github.com/opxop
+/twitter   https://twitter.com/opakholis
+
+
+
+# fallback
+# Berguna apabila tautan yang dimasukkan salah,
+# maka akan dialihkan ke fallbak
+/*         https://opakholis.dev
+```
+
+Langkah berikutnya kamu membuat _Site_ baru di Netlify dengan menghubungkan repositori yang sebelumnya sudah dibuat. Hal ini dilakukan agar bisa menggunakan fitur [Continous Deployment](https://docs.netlify.com/site-deploys/create-deploys/#deploy-with-git) dari Netlify.
+
+Sebenarnya sampai langkah ini kamu sudah berhasil membuat URL Shortener yang dapat kamu gunakan, hanya saja dalam tahap ini kamu masih menggunakan subdomainnya milik Netlify.
+
+Jika kamu sudah mempunyai domain punyamu sendiri, langkah terakhir yang harus kamu lakukan adalah [konfigurasi DNS](https://docs.netlify.com/domains-https/custom-domains/). Kamu bisa menggunakan DNS Eksternal ataupun DNS server Netlify sendiri untuk cara yang lebih mudah. Dalam langkah ini saya tetap menggunakan subdomain, haha. Namun bukan dari Netlify melainkan domain milik pribadi. Karena tidak ada alasan bagi saya untuk memiliki domain baru.
+
+Mari cek masing-masing hasil tautan yang baru saja dibuat:
+
+1. [re.opakholis.dev/github](https://re.opakholis.dev/github)
+2. [re.opakholis.dev/twitter](https://re.opakholis.dev/twitter)
+3. [re.opakholis.dev/gu3GanteNg](https://re.opakholis.dev/gu3GanteNg)
+
+Untuk nomor ketiga maka akan dialihkan ke [https://opakholis.dev](/) yang saya jadikan sebagai fallback, karena tautan dengan `/gu3GanteNg` tidak ada dalam file \_redirects.
+
+**Otomasi?**
+
+Banyak cara untuk menambahkan tautan-tautan berikutnya, diantaranya :
+
+- Cara membosankan dengan buka direktori project > edit file _\_redrects_ > `git commit` dan `git push` ke repositori Github.
+
+- Menggunakan [package ini](https://www.npmjs.com/package/netlify-shortener) atau jika ingin lebih powerfull maka bisa digabungkan dengan [zsh alias](https://zsh.sourceforge.io/Intro/intro_8.html).
+
+- Atau bahkan menggunakan Javascript dengan bantuan module Node.js.
+
+Karena hanya berisi 1 file, kamu tidak perlu mengkhawatirkan tentang _deploy time_ karena hanya membutuhkan waktu 2-3 detik!
+
+<Wrapper>
+  <Image alt={`Deploy`} src={`/static/images/shortener/deploy.png`} width={1130} height={530} />
+  <Caption>Deploy summary</Caption>
+</Wrapper>
+
+**FAST? ABSOLUTELY.**
+
+## Penutup
+
+Setup mudah? Gratis? Cepat? tidak diragukan lagi bahwa saya PUAS, bahkan saya hanya membutuhkan waktu kurang dari 1 jam untuk setup project hingga deploy. Tapi sayang sekali Netlify redirects tidak memiliki fitur statistik—seperti seberapa sering link diakses. Jika fitur tersebut sangat kamu butuhkan, mungkin kamu perlu mempertimbangkan untuk menggunakan layanan berbayarnya bit.ly atau layanan sejenis.
+
+### Referensi
+
+- https://github.com/kentcdodds/netlify-shortener
+- https://docs.netlify.com/routing/redirects

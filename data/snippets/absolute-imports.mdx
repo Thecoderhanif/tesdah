@@ -1,0 +1,32 @@
+---
+title: "Absolute Imports"
+description: "Absolute import & path aliases untuk path yang lebih yoi"
+---
+
+```json
+// tsconfig.json or jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "exclude": ["node_modules", ".next"]
+}
+```
+
+__*Lemme explain__
+
+Daripada import komponen yang membosankan seperti ini:
+
+```javascript
+import Card from '../../../comonents/Card'
+```
+
+Akan lebih rapih jika menggunakan _absolute import_
+
+```javascript
+import Card from '@/components/Card'
+```
+

@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/gh",
+      "destination": "https://github.com/opxop"
+    },
+    {
+      "source": "/tw",
+      "destination": "https://twitter.com/opakholis"
+    },
+    {
+      "source": "/books",
+      "destination": "https://books.opakholis.dev"
+    }
+  ]
+}
