@@ -2,7 +2,8 @@ module.exports = {
   swcMinify: true,
   reactStrictMode: true,
   images: {
-    domains: ['i.scdn.co']
+    loader: 'akamai',
+    path: '/'
   },
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
