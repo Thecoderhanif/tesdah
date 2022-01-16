@@ -1,3 +1,0 @@
-User-agent: *
-
-Sitemap: https://opakholis.dev/sitemap.xml
